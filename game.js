@@ -58,6 +58,15 @@ const player2 = {
   height: paddleHeight,
 };
 
+const ai = {
+  speed: 4,
+  error: 20,
+};
+
+const aiError = 20;
+
+const targetY = ballCenter + aiError;
+
 // ==========================
 // Pelota
 // ==========================
@@ -118,6 +127,36 @@ function updatePlayer1() {
 
   if (player1.y + player1.height > canvas.height) {
     player1.y = canvas.height - player1.height;
+  }
+}
+
+// ==========================
+// Actualizar jugador 2 (IA)
+// ==========================
+
+function updateAI() {
+  const paddleCenter = player2.y + player2.height / 2;
+
+  const ballCenter = ball.y + ball.height / 2;
+
+  if (ball.velocityX > 0) {
+    const targetY = ballCenter + ai.error;
+
+    if (targetY < paddleCenter) {
+      player2.y -= ai.speed;
+    }
+
+    if (targetY > paddleCenter) {
+      player2.y += ai.speed;
+    }
+  }
+
+  if (player2.y < 0) {
+    player2.y = 0;
+  }
+
+  if (player2.y + player2.height > canvas.height) {
+    player2.y = canvas.height - player2.height;
   }
 }
 
@@ -214,6 +253,7 @@ function checkScore() {
 function update() {
   updateBall();
   updatePlayer1();
+  updateAI();
   checkPaddleCollisions();
   checkScore();
 }
