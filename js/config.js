@@ -1,3 +1,7 @@
+// ==========================
+// Configuración del juego
+// ==========================
+
 const paddleWidth = 10;
 const paddleHeight = 100;
 
