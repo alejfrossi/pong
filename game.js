@@ -10,6 +10,10 @@ const paddleHeight = 100;
 
 const ballSize = 10;
 
+const initialBallSpeed = 5;
+const ballSpeedIncrement = 0.5;
+const maxBallSpeed = 10;
+
 // ==========================
 // Controles
 // ==========================
@@ -72,7 +76,7 @@ const ball = {
   y: canvas.height / 2 - ballSize / 2,
   width: ballSize,
   height: ballSize,
-  velocityX: 5,
+  velocityX: initialBallSpeed,
   velocityY: 3,
 };
 
@@ -82,6 +86,30 @@ const ball = {
 
 let player1Score = 0;
 let player2Score = 0;
+
+// ==========================
+// Velocidad de la pelota
+// ==========================
+
+function setBallSpeed(speed) {
+  const magnitude = Math.sqrt(ball.velocityX ** 2 + ball.velocityY ** 2);
+
+  ball.velocityX = (ball.velocityX / magnitude) * speed;
+
+  ball.velocityY = (ball.velocityY / magnitude) * speed;
+}
+
+// ==========================
+// Aumentar velocidad de la pelota
+// ==========================
+
+function increaseBallSpeed() {
+  const currentSpeed = Math.sqrt(ball.velocityX ** 2 + ball.velocityY ** 2);
+
+  const newSpeed = Math.min(currentSpeed + ballSpeedIncrement, maxBallSpeed);
+
+  setBallSpeed(newSpeed);
+}
 
 // ==========================
 // Actualizar pelota
@@ -187,6 +215,8 @@ function bounceOffPaddle(paddle) {
   ball.velocityY = normalizedIntersect * maxBounceSpeed;
 
   ball.velocityX *= -1;
+
+  increaseBallSpeed();
 }
 
 // ==========================
@@ -218,8 +248,10 @@ function resetBall(direction) {
 
   ball.y = canvas.height / 2 - ball.height / 2;
 
-  ball.velocityX = direction * 5;
+  ball.velocityX = direction * initialBallSpeed;
   ball.velocityY = 3;
+
+  setBallSpeed(initialBallSpeed);
 }
 
 // ==========================
