@@ -119,7 +119,7 @@ No necesitás instalar ninguna dependencia.
 Simplemente cloná el repositorio:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone <https://github.com/alejfrossi/pong>
 ```
 
 Entrá en la carpeta:
