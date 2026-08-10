@@ -71,37 +71,6 @@ La IA sigue estando limitada por las mismas reglas físicas del juego.
 
 ---
 
-## ⚡ Física
-
-La pelota no tiene una trayectoria completamente fija.
-
-Cuando golpea una paleta, la posición del impacto influye en el rebote:
-
-```text
-       █
-       █
-   ↗   █   ← impacto arriba
-       █
-       █
-```
-
-Un impacto cerca del centro produce un rebote más horizontal, mientras que golpear cerca de los extremos genera un ángulo mayor.
-
-Además, la pelota **aumenta progresivamente su velocidad** durante el intercambio.
-
-```text
-🏓 →       5.0
-🏓 → →     5.5
-🏓 → → →   6.0
-🏓 → → → → 6.5
-...
-🏓 ⚡       15.0
-```
-
-Cuando se marca un punto, la pelota vuelve a su velocidad inicial.
-
----
-
 ## 🧠 ¿Qué estamos aprendiendo?
 
 Este proyecto no busca solamente crear un Pong funcional.
