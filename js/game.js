@@ -1,6 +1,3 @@
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
-
 // ==========================
 // Controles
 // ==========================
@@ -88,7 +85,6 @@ function getAIAccuracy() {
 // ==========================
 
 let aiError = 0;
-s;
 
 function generateAIError() {
   aiError = (Math.random() * 2 - 1) * ai.error;
