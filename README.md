@@ -18,16 +18,6 @@ La pelota rebota contra las paredes y las paletas. Cada vez que golpea una palet
 
 Mientras tanto, una **IA controla automáticamente la paleta derecha** e intenta devolver cada pelota que le mandes.
 
-```text
-        JUGADOR                    IA
-           │                       │
-           █                       █
-           █        🏓 →           █
-           █      ↗                █
-           █   ↗                   █
-           │                       │
-```
-
 ¿Podrás superar a la máquina? 🤖
 
 ---
