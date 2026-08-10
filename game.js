@@ -12,7 +12,33 @@ const ballSize = 10;
 
 const initialBallSpeed = 5;
 const ballSpeedIncrement = 0.5;
-const maxBallSpeed = 10;
+const maxBallSpeed = 15;
+
+const minBounceSpeed = 1.5;
+
+const difficulty = {
+  easy: {
+    speed: 3,
+    error: 45,
+    reactionDistance: 250,
+  },
+
+  normal: {
+    speed: 4,
+    error: 25,
+    reactionDistance: 400,
+  },
+
+  hard: {
+    speed: 5,
+    error: 10,
+    reactionDistance: 550,
+  },
+};
+
+const ai = difficulty.normal;
+
+let aiError = 0;
 
 // ==========================
 // Controles
@@ -60,11 +86,6 @@ const player2 = {
   y: canvas.height / 2 - paddleHeight / 2,
   width: paddleWidth,
   height: paddleHeight,
-};
-
-const ai = {
-  speed: 4,
-  error: 20,
 };
 
 // ==========================
@@ -133,6 +154,22 @@ function updateBall() {
 }
 
 // ==========================
+// Obtener precisión de la IA
+// ==========================
+
+function getAIAccuracy() {
+  return (Math.random() * 2 - 1) * ai.error;
+}
+
+// ==========================
+// Generar error de la IA
+// ==========================
+
+function generateAIError() {
+  aiError = (Math.random() * 2 - 1) * ai.error;
+}
+
+// ==========================
 // Actualizar jugador 1
 // ==========================
 
@@ -161,17 +198,17 @@ function updatePlayer1() {
 function updateAI() {
   const paddleCenter = player2.y + player2.height / 2;
 
-  const ballCenter = ball.y + ball.height / 2;
+  const distanceToAI = player2.x - ball.x;
 
-  if (ball.velocityX > 0) {
-    const targetY = ballCenter + ai.error;
+  if (ball.velocityX > 0 && distanceToAI < ai.reactionDistance) {
+    const predictedY = predictBallY() + aiError;
 
-    if (targetY < paddleCenter) {
-      player2.y -= ai.speed;
+    if (paddleCenter < predictedY) {
+      player2.y += ai.speed;
     }
 
-    if (targetY > paddleCenter) {
-      player2.y += ai.speed;
+    if (paddleCenter > predictedY) {
+      player2.y -= ai.speed;
     }
   }
 
@@ -198,6 +235,34 @@ function checkCollision(ball, paddle) {
 }
 
 // ==========================
+// Predecir posición de la pelota
+// ==========================
+
+function predictBallY() {
+  const distance = player2.x - ball.x;
+
+  const time = distance / ball.velocityX;
+
+  let predictedY = ball.y + ball.velocityY * time;
+
+  const ballHeight = ball.height;
+
+  const maxY = canvas.height - ballHeight;
+
+  while (predictedY < 0 || predictedY > maxY) {
+    if (predictedY < 0) {
+      predictedY = -predictedY;
+    }
+
+    if (predictedY > maxY) {
+      predictedY = maxY - (predictedY - maxY);
+    }
+  }
+
+  return predictedY;
+}
+
+// ==========================
 // Rebote de la pelota
 // ==========================
 
@@ -211,12 +276,21 @@ function bounceOffPaddle(paddle) {
   const normalizedIntersect = relativeIntersectY / (paddle.height / 2);
 
   const maxBounceSpeed = 5;
+  const minBounceSpeed = 1.5;
 
   ball.velocityY = normalizedIntersect * maxBounceSpeed;
+
+  if (Math.abs(ball.velocityY) < minBounceSpeed) {
+    ball.velocityY = ball.velocityY < 0 ? -minBounceSpeed : minBounceSpeed;
+  }
 
   ball.velocityX *= -1;
 
   increaseBallSpeed();
+
+  if (ball.velocityX > 0) {
+    generateAIError();
+  }
 }
 
 // ==========================
@@ -249,9 +323,12 @@ function resetBall(direction) {
   ball.y = canvas.height / 2 - ball.height / 2;
 
   ball.velocityX = direction * initialBallSpeed;
+
   ball.velocityY = 3;
 
   setBallSpeed(initialBallSpeed);
+
+  generateAIError();
 }
 
 // ==========================
