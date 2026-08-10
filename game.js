@@ -10,6 +10,11 @@ const paddleHeight = 100;
 
 const ballSize = 10;
 
+const keys = {
+  w: false,
+  s: false,
+};
+
 // ==========================
 // Jugadores
 // ==========================
@@ -26,6 +31,7 @@ const player2 = {
   y: canvas.height / 2 - paddleHeight / 2,
   width: paddleWidth,
   height: paddleHeight,
+  speed: 6,
 };
 
 // ==========================
@@ -67,6 +73,30 @@ function updateBall() {
   if (ball.y + ball.height >= canvas.height) {
     ball.y = canvas.height - ball.height;
     ball.velocityY *= -1;
+  }
+}
+
+// ==========================
+// Actualizar player
+// ==========================
+
+function updatePlayer1() {
+  if (keys.w) {
+    player1.y -= player1.speed;
+  }
+
+  if (keys.s) {
+    player1.y += player1.speed;
+  }
+
+  // Límite superior
+  if (player1.y < 0) {
+    player1.y = 0;
+  }
+
+  // Límite inferior
+  if (player1.y + player1.height > canvas.height) {
+    player1.y = canvas.height - player1.height;
   }
 }
 
@@ -136,11 +166,20 @@ function draw() {
 }
 
 // ==========================
+// Updates
+// ==========================
+
+function update() {
+  updateBall();
+  updatePlayer1();
+}
+
+// ==========================
 // Game Loop
 // ==========================
 
 function gameLoop() {
-  updateBall();
+  update();
   draw();
 
   requestAnimationFrame(gameLoop);
