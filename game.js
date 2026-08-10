@@ -37,6 +37,8 @@ const ball = {
   y: canvas.height / 2 - ballSize / 2,
   width: ballSize,
   height: ballSize,
+  velocityX: 5,
+  velocityY: 3,
 };
 
 // ==========================
@@ -47,13 +49,27 @@ let player1Score = 0;
 let player2Score = 0;
 
 // ==========================
+// Actualizar pelota
+// ==========================
+
+function updateBall() {
+  // Mover la pelota
+  ball.x += ball.velocityX;
+  ball.y += ball.velocityY;
+
+  // Rebote contra los bordes superior e inferior
+  if (ball.y <= 0 || ball.y + ball.height >= canvas.height) {
+    ball.velocityY *= -1;
+  }
+}
+
+// ==========================
 // Dibujar cancha
 // ==========================
 
 function drawCourt() {
   ctx.fillStyle = "white";
 
-  // Línea central
   const lineWidth = 4;
   const lineHeight = 20;
   const gap = 15;
@@ -104,7 +120,6 @@ function drawScore() {
 // ==========================
 
 function draw() {
-  // Limpiar canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   drawCourt();
@@ -118,6 +133,7 @@ function draw() {
 // ==========================
 
 function gameLoop() {
+  updateBall();
   draw();
 
   requestAnimationFrame(gameLoop);
