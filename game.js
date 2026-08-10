@@ -2,45 +2,6 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 // ==========================
-// Configuración del juego
-// ==========================
-
-const paddleWidth = 10;
-const paddleHeight = 100;
-
-const ballSize = 10;
-
-const initialBallSpeed = 5;
-const ballSpeedIncrement = 0.5;
-const maxBallSpeed = 15;
-
-const minBounceSpeed = 1.5;
-
-const difficulty = {
-  easy: {
-    speed: 3,
-    error: 45,
-    reactionDistance: 250,
-  },
-
-  normal: {
-    speed: 4,
-    error: 25,
-    reactionDistance: 400,
-  },
-
-  hard: {
-    speed: 5,
-    error: 10,
-    reactionDistance: 550,
-  },
-};
-
-const ai = difficulty.normal;
-
-let aiError = 0;
-
-// ==========================
 // Controles
 // ==========================
 
@@ -79,6 +40,7 @@ const player1 = {
   width: paddleWidth,
   height: paddleHeight,
   speed: 6,
+  velocityY: 0,
 };
 
 const player2 = {
@@ -86,6 +48,7 @@ const player2 = {
   y: canvas.height / 2 - paddleHeight / 2,
   width: paddleWidth,
   height: paddleHeight,
+  velocityY: 0,
 };
 
 // ==========================
@@ -175,19 +138,35 @@ function generateAIError() {
 
 function updatePlayer1() {
   if (keys.w) {
-    player1.y -= player1.speed;
+    player1.velocityY -= paddleAcceleration;
   }
 
   if (keys.s) {
-    player1.y += player1.speed;
+    player1.velocityY += paddleAcceleration;
   }
+
+  if (!keys.w && !keys.s) {
+    player1.velocityY *= paddleFriction;
+  }
+
+  if (player1.velocityY > maxPaddleSpeed) {
+    player1.velocityY = maxPaddleSpeed;
+  }
+
+  if (player1.velocityY < -maxPaddleSpeed) {
+    player1.velocityY = -maxPaddleSpeed;
+  }
+
+  player1.y += player1.velocityY;
 
   if (player1.y < 0) {
     player1.y = 0;
+    player1.velocityY = 0;
   }
 
   if (player1.y + player1.height > canvas.height) {
     player1.y = canvas.height - player1.height;
+    player1.velocityY = 0;
   }
 }
 
@@ -200,24 +179,47 @@ function updateAI() {
 
   const distanceToAI = player2.x - ball.x;
 
+  let targetVelocity = 0;
+
   if (ball.velocityX > 0 && distanceToAI < ai.reactionDistance) {
     const predictedY = predictBallY() + aiError;
 
     if (paddleCenter < predictedY) {
-      player2.y += ai.speed;
+      targetVelocity = ai.speed;
     }
 
     if (paddleCenter > predictedY) {
-      player2.y -= ai.speed;
+      targetVelocity = -ai.speed;
     }
   }
 
+  if (player2.velocityY < targetVelocity) {
+    player2.velocityY += paddleAcceleration;
+  }
+
+  if (player2.velocityY > targetVelocity) {
+    player2.velocityY -= paddleAcceleration;
+  }
+
+  if (player2.velocityY > ai.speed) {
+    player2.velocityY = ai.speed;
+  }
+
+  if (player2.velocityY < -ai.speed) {
+    player2.velocityY = -ai.speed;
+  }
+
+  player2.y += player2.velocityY;
+
   if (player2.y < 0) {
     player2.y = 0;
+    player2.velocityY = 0;
   }
 
   if (player2.y + player2.height > canvas.height) {
     player2.y = canvas.height - player2.height;
+
+    player2.velocityY = 0;
   }
 }
 
