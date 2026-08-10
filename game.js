@@ -57,8 +57,15 @@ function updateBall() {
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
 
-  // Rebote contra los bordes superior e inferior
-  if (ball.y <= 0 || ball.y + ball.height >= canvas.height) {
+  // Colisión con el borde superior
+  if (ball.y <= 0) {
+    ball.y = 0;
+    ball.velocityY *= -1;
+  }
+
+  // Colisión con el borde inferior
+  if (ball.y + ball.height >= canvas.height) {
+    ball.y = canvas.height - ball.height;
     ball.velocityY *= -1;
   }
 }
