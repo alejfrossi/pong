@@ -10,10 +10,34 @@ const paddleHeight = 100;
 
 const ballSize = 10;
 
+// ==========================
+// Controles
+// ==========================
+
 const keys = {
   w: false,
   s: false,
 };
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "w" || event.key === "W") {
+    keys.w = true;
+  }
+
+  if (event.key === "s" || event.key === "S") {
+    keys.s = true;
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  if (event.key === "w" || event.key === "W") {
+    keys.w = false;
+  }
+
+  if (event.key === "s" || event.key === "S") {
+    keys.s = false;
+  }
+});
 
 // ==========================
 // Jugadores
@@ -24,6 +48,7 @@ const player1 = {
   y: canvas.height / 2 - paddleHeight / 2,
   width: paddleWidth,
   height: paddleHeight,
+  speed: 6,
 };
 
 const player2 = {
@@ -31,7 +56,6 @@ const player2 = {
   y: canvas.height / 2 - paddleHeight / 2,
   width: paddleWidth,
   height: paddleHeight,
-  speed: 6,
 };
 
 // ==========================
@@ -59,25 +83,24 @@ let player2Score = 0;
 // ==========================
 
 function updateBall() {
-  // Mover la pelota
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
 
-  // Colisión con el borde superior
+  // Rebote contra el borde superior
   if (ball.y <= 0) {
     ball.y = 0;
-    ball.velocityY *= -1;
+    ball.velocityY = Math.abs(ball.velocityY);
   }
 
-  // Colisión con el borde inferior
+  // Rebote contra el borde inferior
   if (ball.y + ball.height >= canvas.height) {
     ball.y = canvas.height - ball.height;
-    ball.velocityY *= -1;
+    ball.velocityY = -Math.abs(ball.velocityY);
   }
 }
 
 // ==========================
-// Actualizar player
+// Actualizar jugador 1
 // ==========================
 
 function updatePlayer1() {
@@ -89,15 +112,110 @@ function updatePlayer1() {
     player1.y += player1.speed;
   }
 
-  // Límite superior
   if (player1.y < 0) {
     player1.y = 0;
   }
 
-  // Límite inferior
   if (player1.y + player1.height > canvas.height) {
     player1.y = canvas.height - player1.height;
   }
+}
+
+// ==========================
+// Detectar colisión
+// ==========================
+
+function checkCollision(ball, paddle) {
+  return (
+    ball.x < paddle.x + paddle.width &&
+    ball.x + ball.width > paddle.x &&
+    ball.y < paddle.y + paddle.height &&
+    ball.y + ball.height > paddle.y
+  );
+}
+
+// ==========================
+// Rebote de la pelota
+// ==========================
+
+function bounceOffPaddle(paddle) {
+  const ballCenter = ball.y + ball.height / 2;
+
+  const paddleCenter = paddle.y + paddle.height / 2;
+
+  const relativeIntersectY = ballCenter - paddleCenter;
+
+  const normalizedIntersect = relativeIntersectY / (paddle.height / 2);
+
+  const maxBounceSpeed = 5;
+
+  ball.velocityY = normalizedIntersect * maxBounceSpeed;
+
+  ball.velocityX *= -1;
+}
+
+// ==========================
+// Colisiones con paletas
+// ==========================
+
+function checkPaddleCollisions() {
+  // Jugador 1
+  if (ball.velocityX < 0 && checkCollision(ball, player1)) {
+    ball.x = player1.x + player1.width;
+
+    bounceOffPaddle(player1);
+  }
+
+  // Jugador 2
+  if (ball.velocityX > 0 && checkCollision(ball, player2)) {
+    ball.x = player2.x - ball.width;
+
+    bounceOffPaddle(player2);
+  }
+}
+
+// ==========================
+// Reiniciar pelota
+// ==========================
+
+function resetBall(direction) {
+  ball.x = canvas.width / 2 - ball.width / 2;
+
+  ball.y = canvas.height / 2 - ball.height / 2;
+
+  ball.velocityX = direction * 5;
+  ball.velocityY = 3;
+}
+
+// ==========================
+// Sistema de puntuación
+// ==========================
+
+function checkScore() {
+  // Pelota sale por la izquierda
+  if (ball.x + ball.width < 0) {
+    player2Score++;
+
+    resetBall(1);
+  }
+
+  // Pelota sale por la derecha
+  if (ball.x > canvas.width) {
+    player1Score++;
+
+    resetBall(-1);
+  }
+}
+
+// ==========================
+// Actualizar juego
+// ==========================
+
+function update() {
+  updateBall();
+  updatePlayer1();
+  checkPaddleCollisions();
+  checkScore();
 }
 
 // ==========================
@@ -163,15 +281,6 @@ function draw() {
   drawPaddles();
   drawBall();
   drawScore();
-}
-
-// ==========================
-// Updates
-// ==========================
-
-function update() {
-  updateBall();
-  updatePlayer1();
 }
 
 // ==========================
