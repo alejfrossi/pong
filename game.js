@@ -63,10 +63,6 @@ const ai = {
   error: 20,
 };
 
-const aiError = 20;
-
-const targetY = ballCenter + aiError;
-
 // ==========================
 // Pelota
 // ==========================
