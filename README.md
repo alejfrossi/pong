@@ -2,6 +2,8 @@
 
 Un proyecto de aprendizaje para desarrollar una versión de **Pong utilizando únicamente HTML, CSS y JavaScript**, construyendo cada sistema de forma incremental y entendiendo qué ocurre detrás de cada línea de código.
 
+> **Mi idea no es solamente desarrollar Pong. Es aprender a hacer un videojuego.**
+
 ---
 
 # 🧠 Enfoque de desarrollo
@@ -13,6 +15,20 @@ En lugar de intentar construir el juego completo desde el principio, cada etapa 
 Cada etapa debe dejar el juego funcionando antes de comenzar la siguiente.
 
 Esto permite que cada cambio pueda entenderse y probarse de manera aislada.
+
+---
+
+## 🛠️ Tecnologías
+
+- **HTML5**
+- **CSS3**
+- **JavaScript**
+- **Canvas API**
+- **Git / GitHub**
+
+Sin frameworks. Sin motores. Sin magia.
+
+**Solo código, matemática y una pelota que cada vez va más rápido.** 🏓💨
 
 ---
 
@@ -101,23 +117,29 @@ Renderizado
 
 Esto es intencionalmente temporal.
 
-A medida que el proyecto crece, estamos refactorizando este archivo para separar responsabilidades.
+A medida que el proyecto crece, mi idea es seguir refactorizando este archivo para separar responsabilidades.
 
-4---
+---
 
-# 🔄 Game Loop
+# 📚 Propósito educativo
 
-Uno de los conceptos centrales del proyecto es el **Game Loop**.
+Este repositorio funciona como un registro del proceso de aprendizaje.
 
-El juego funciona mediante un ciclo continuo. En cada iteración:
+Las decisiones de implementación se toman intentando responder preguntas como:
 
-1. Se procesan los controles.
-2. Se actualiza el estado de las entidades.
-3. Se calculan movimientos y colisiones.
-4. Se comprueba la puntuación.
-5. Se vuelve a dibujar el estado actual.
+> ¿Por qué la pelota rebota de esta manera?
 
-El ciclo se ejecuta mediante `requestAnimationFrame()`.
+> ¿Qué representa realmente `velocityX`?
+
+> ¿Cómo podemos determinar si dos objetos están colisionando?
+
+> ¿Cómo puede una IA predecir dónde estará una pelota?
+
+> ¿Cuándo conviene separar una responsabilidad en otro módulo?
+
+> ¿Cómo podemos mejorar el código sin romper lo que ya funciona?
+
+La intención es que el código final sea el resultado de **entender progresivamente el problema**, no simplemente de copiar una implementación terminada.
 
 ---
 
@@ -147,43 +169,6 @@ También podés utilizar una extensión como **Live Server** para ejecutar el pr
 
 ---
 
-## 🛠️ Tecnologías
-
-- 🧱 **HTML5**
-- 🎨 **CSS3**
-- ⚙️ **JavaScript**
-- 🖼️ **Canvas API**
-- 🌱 **Git / GitHub**
-
-Sin frameworks. Sin motores. Sin magia.
-
-**Solo código, matemática y una pelota que cada vez va más rápido.** 🏓💨
-
-
----
-
-# 📚 Propósito educativo
-
-Este repositorio funciona como un registro del proceso de aprendizaje.
-
-Las decisiones de implementación se toman intentando responder preguntas como:
-
-> ¿Por qué la pelota rebota de esta manera?
-
-> ¿Qué representa realmente `velocityX`?
-
-> ¿Cómo podemos determinar si dos objetos están colisionando?
-
-> ¿Cómo puede una IA predecir dónde estará una pelota?
-
-> ¿Cuándo conviene separar una responsabilidad en otro módulo?
-
-> ¿Cómo podemos mejorar el código sin romper lo que ya funciona?
-
-La intención es que el código final sea el resultado de **entender progresivamente el problema**, no simplemente de copiar una implementación terminada.
-
----
-
 ## 🕹️ Controles
 
 | Tecla | Acción                |
@@ -193,7 +178,7 @@ La intención es que el código final sea el resultado de **entender progresivam
 
 La paleta derecha está controlada por la IA.
 
-
+---
 
 ### 🏓 ¿Listo para jugar?
 
