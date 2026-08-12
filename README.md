@@ -6,7 +6,7 @@ Un proyecto de aprendizaje para desarrollar una versión de **Pong utilizando ú
 
 ---
 
-# 🧠 Enfoque de desarrollo
+## 🧠 Enfoque de desarrollo
 
 El proyecto se desarrolla **de forma incremental**.
 
@@ -32,7 +32,7 @@ Sin frameworks. Sin motores. Sin magia.
 
 ---
 
-# 🧩 Arquitectura
+## 🧩 Arquitectura
 
 La estructura actual del proyecto es:
 
@@ -121,7 +121,7 @@ A medida que el proyecto crece, mi idea es seguir refactorizando este archivo pa
 
 ---
 
-# 📚 Propósito educativo
+## 📚 Propósito educativo
 
 Este repositorio funciona como un registro del proceso de aprendizaje.
 
