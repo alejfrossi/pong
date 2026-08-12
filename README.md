@@ -1,100 +1,24 @@
-# 🏓 Pong
+# 🏓 Pong — JavaScript desde cero
 
-> **El clásico. Dos paletas. Una pelota. Cero excusas.**
-
-Un pequeño proyecto desarrollado desde cero con **HTML, CSS y JavaScript**, inspirado en el clásico *Pong*.
-
-La idea es mantener el juego sencillo, pero utilizarlo como una oportunidad para aprender y aplicar conceptos de desarrollo de videojuegos: **física, colisiones, inteligencia artificial, movimiento, puntuación y arquitectura de código**.
+Un proyecto de aprendizaje para desarrollar una versión de **Pong utilizando únicamente HTML, CSS y JavaScript**, construyendo cada sistema de forma incremental y entendiendo qué ocurre detrás de cada línea de código.
 
 ---
 
-## 🎮 ¿De qué trata?
+# 🧠 Enfoque de desarrollo
 
-Controlás la paleta de la izquierda y tenés un único objetivo:
+El proyecto se desarrolla **de forma incremental**.
 
-> 🏓 **¡No dejes que la pelota pase!**
+En lugar de intentar construir el juego completo desde el principio, cada etapa agrega o modifica una pequeña pieza del sistema.
 
-La pelota rebota contra las paredes y las paletas. Cada vez que golpea una paleta puede cambiar su trayectoria y aumentar su velocidad.
+Cada etapa debe dejar el juego funcionando antes de comenzar la siguiente.
 
-Mientras tanto, una **IA controla automáticamente la paleta derecha** e intenta devolver cada pelota que le mandes.
-
-¿Podrás superar a la máquina? 🤖
+Esto permite que cada cambio pueda entenderse y probarse de manera aislada.
 
 ---
 
-## 🕹️ Controles
+# 🧩 Arquitectura
 
-| Tecla | Acción                |
-| ----- | --------------------- |
-| `W`   | ⬆️ Mover hacia arriba |
-| `S`   | ⬇️ Mover hacia abajo  |
-
-La paleta derecha está controlada por la IA.
-
----
-
-## 🤖 La IA
-
-La IA no se limita simplemente a seguir la pelota.
-
-Actualmente intenta **predecir la trayectoria de la pelota**, teniendo en cuenta sus rebotes contra los bordes.
-
-Además, existen diferentes niveles de dificultad:
-
-### 🟢 Easy
-
-La IA:
-
-* Reacciona más tarde.
-* Tiene mayor margen de error.
-* Se mueve más lentamente.
-
-### 🟡 Normal
-
-Un desafío equilibrado:
-
-* Mejor tiempo de reacción.
-* Menor margen de error.
-* Mayor velocidad.
-
-### 🔴 Hard
-
-La máquina viene preparada:
-
-* Reacciona antes.
-* Predice con mayor precisión.
-* Se mueve más rápido.
-
-Pero no hace trampa. 😎
-
-La IA sigue estando limitada por las mismas reglas físicas del juego.
-
----
-
-## 🧠 ¿Qué estamos aprendiendo?
-
-Este proyecto no busca solamente crear un Pong funcional.
-
-También sirve como laboratorio para experimentar con:
-
-* Game loops
-* Movimiento de entidades
-* Detección de colisiones
-* Velocidad y aceleración
-* Trayectorias y rebotes
-* Inteligencia artificial
-* Predicción de movimiento
-* Matemática aplicada a videojuegos
-* Refactorización y organización del código
-* HTML, CSS y JavaScript
-
-La intención es desarrollar el juego **de forma incremental**, manteniendo cada cambio pequeño, comprensible y registrado mediante Git.
-
----
-
-## 📁 Estructura del proyecto
-
-Actualmente el código JavaScript está organizado dentro de `js/`:
+La estructura actual del proyecto es:
 
 ```text
 pong/
@@ -108,7 +32,92 @@ pong/
     └── game.js
 ```
 
-La arquitectura seguirá evolucionando a medida que el juego crezca.
+La separación se está realizando progresivamente.
+
+### `config.js`
+
+Contiene los valores que controlan el comportamiento del juego:
+
+```text
+Tamaño de las paletas
+Tamaño de la pelota
+Velocidad inicial
+Aceleración de la pelota
+Velocidad máxima
+Fricción
+Aceleración de las paletas
+Configuración de dificultad de la IA
+```
+
+La intención es evitar que estos valores queden mezclados con la lógica del juego.
+
+---
+
+### `entities.js`
+
+Define las entidades principales:
+
+```text
+Player 1
+Player 2
+Ball
+Score
+```
+
+Actualmente las entidades se representan mediante objetos JavaScript.
+
+Por ejemplo, una paleta contiene información como:
+
+```javascript
+{
+    x,
+    y,
+    width,
+    height,
+    velocityY
+}
+```
+
+Esto permite que una entidad almacene tanto su **estado** como las propiedades necesarias para actualizarlo.
+
+---
+
+### `game.js`
+
+Actualmente concentra la mayor parte de la lógica.
+
+Entre otras responsabilidades, contiene:
+
+```text
+Input
+Game Loop
+Movimiento
+Física de la pelota
+Colisiones
+IA
+Puntuación
+Renderizado
+```
+
+Esto es intencionalmente temporal.
+
+A medida que el proyecto crece, estamos refactorizando este archivo para separar responsabilidades.
+
+4---
+
+# 🔄 Game Loop
+
+Uno de los conceptos centrales del proyecto es el **Game Loop**.
+
+El juego funciona mediante un ciclo continuo. En cada iteración:
+
+1. Se procesan los controles.
+2. Se actualiza el estado de las entidades.
+3. Se calculan movimientos y colisiones.
+4. Se comprueba la puntuación.
+5. Se vuelve a dibujar el estado actual.
+
+El ciclo se ejecuta mediante `requestAnimationFrame()`.
 
 ---
 
@@ -119,7 +128,7 @@ No necesitás instalar ninguna dependencia.
 Simplemente cloná el repositorio:
 
 ```bash
-git clone <https://github.com/alejfrossi/pong>
+git clone <URL_DEL_REPOSITORIO>
 ```
 
 Entrá en la carpeta:
@@ -140,48 +149,55 @@ También podés utilizar una extensión como **Live Server** para ejecutar el pr
 
 ## 🛠️ Tecnologías
 
-* **HTML5**
-* **CSS3**
-* **JavaScript**
-* **Canvas API**
-* **Git / GitHub**
+- 🧱 **HTML5**
+- 🎨 **CSS3**
+- ⚙️ **JavaScript**
+- 🖼️ **Canvas API**
+- 🌱 **Git / GitHub**
 
 Sin frameworks. Sin motores. Sin magia.
 
 **Solo código, matemática y una pelota que cada vez va más rápido.** 🏓💨
 
----
-
-## 🗺️ Próximamente
-
-El proyecto todavía está en desarrollo.
-
-Algunas de las próximas ideas:
-
-* [ ] Mejorar la arquitectura del código
-* [ ] Selección de dificultad
-* [ ] Sistema de pausa
-* [ ] Condición de victoria
-* [ ] Efectos de sonido
-* [ ] Efectos visuales
-* [ ] Menú principal
-* [ ] Mejoras en la IA
-* [ ] Pulido general del gameplay
 
 ---
 
-## Filosofía del proyecto
+# 📚 Propósito educativo
 
-> **Empezar simple. Entender cada pieza. Mejorarla paso a paso.**
+Este repositorio funciona como un registro del proceso de aprendizaje.
 
-Este proyecto nació como una implementación sencilla de Pong y va evolucionando progresivamente hacia un pequeño videojuego completo.
+Las decisiones de implementación se toman intentando responder preguntas como:
 
-Cada nueva funcionalidad representa una oportunidad para aprender algo nuevo sobre programación y desarrollo de videojuegos.
+> ¿Por qué la pelota rebota de esta manera?
+
+> ¿Qué representa realmente `velocityX`?
+
+> ¿Cómo podemos determinar si dos objetos están colisionando?
+
+> ¿Cómo puede una IA predecir dónde estará una pelota?
+
+> ¿Cuándo conviene separar una responsabilidad en otro módulo?
+
+> ¿Cómo podemos mejorar el código sin romper lo que ya funciona?
+
+La intención es que el código final sea el resultado de **entender progresivamente el problema**, no simplemente de copiar una implementación terminada.
 
 ---
+
+## 🕹️ Controles
+
+| Tecla | Acción                |
+| ----- | --------------------- |
+| `W`   | ⬆️ Mover hacia arriba |
+| `S`   | ⬇️ Mover hacia abajo  |
+
+La paleta derecha está controlada por la IA.
+
+
 
 ### 🏓 ¿Listo para jugar?
 
 Y que gane el mejor. 🤖
 
 **¡Buena suerte!**
+
